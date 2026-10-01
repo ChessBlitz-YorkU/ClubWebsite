@@ -16,7 +16,6 @@ export type ConstitutionArticle = {
 type AboutPageProps = {
   executives: Executive[]
   constitution: ConstitutionArticle[]
-  constitutionHref?: string
 }
 
 const mission = [
@@ -29,7 +28,7 @@ const mission = [
 
 const sectionHeading = 'text-[32px] leading-[1.2] font-bold tracking-[-1.05px] text-heading max-[480px]:text-[28px]'
 
-function AboutPage({ executives, constitution, constitutionHref }: AboutPageProps) {
+function AboutPage({ executives, constitution }: AboutPageProps) {
   return (
     <>
       <section className="grid grid-cols-[1fr_300px] items-center gap-16 pt-16 pb-14 max-[1000px]:grid-cols-[1fr_220px] max-[1000px]:gap-8 max-[700px]:grid-cols-1 max-[700px]:pt-10 max-[700px]:pb-10" aria-labelledby="about-page-title">
@@ -89,19 +88,9 @@ function AboutPage({ executives, constitution, constitutionHref }: AboutPageProp
       </section>
 
       <section className="mt-[72px] border-t border-line pt-10 max-[700px]:mt-12" aria-labelledby="constitution-title">
-        <div className="flex items-start justify-between gap-8 max-[700px]:flex-col max-[700px]:gap-5">
-          <div>
-            <h2 className={sectionHeading} id="constitution-title">Club constitution</h2>
-            <p className="mt-4 text-base leading-[1.6] text-muted">The principles and rules that guide ChessBlitz YorkU.</p>
-            <p className="mt-3 text-sm leading-[1.5] text-muted">Last amended <time dateTime="2026-09-21">September 21, 2026</time>.</p>
-          </div>
-          {constitutionHref && (
-            <div className="flex shrink-0 flex-wrap items-center gap-4">
-              <a className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-line bg-surface px-4 text-sm font-bold text-link transition-colors hover:border-link hover:text-link-hover focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-link" href={constitutionHref} target="_blank" rel="noopener noreferrer">Open PDF <span aria-hidden="true">↗</span></a>
-              <a className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-link hover:text-link-hover focus-visible:rounded-sm focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-link" href={constitutionHref} download="ChessBlitz-YorkU-Constitution.pdf">Download PDF <span aria-hidden="true">↓</span></a>
-            </div>
-          )}
-        </div>
+        <h2 className={sectionHeading} id="constitution-title">Club constitution</h2>
+        <p className="mt-4 text-base leading-[1.6] text-muted">The principles and rules that guide ChessBlitz YorkU.</p>
+        <p className="mt-3 text-sm leading-[1.5] text-muted">Last amended <time dateTime="2026-09-21">September 21, 2026</time>.</p>
         <div className="mt-8 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface">
           {constitution.map((article, index) => (
             <details className="group" key={article.title}>

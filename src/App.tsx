@@ -26,11 +26,12 @@ function getCurrentPage() {
 const clubLinks = {
   instagram: 'https://www.instagram.com/yorkuchess/',
   discord: 'https://discord.gg/VsJAdbvyEq',
+  membershipDeclaration: 'https://docs.google.com/forms/d/e/1FAIpQLSfKhyvisAQR1bz3xsTWBHttU43sQml22_uEs1reKg1Woazgbg/viewform',
   mailingList: 'https://docs.google.com/forms/d/e/1FAIpQLSfbBhQen9DcdJJAIvWTOmQQ7Ez9PE1bLb8dB_sy75F_LBmELg/viewform',
-  yuConnectHome: 'https://yuconnect.yorku.ca/feeds?type=club&type_id=35476&tab=home',
   yuConnectAbout: 'https://yuconnect.yorku.ca/feeds?type=club&type_id=35476&tab=about',
   chessCom: 'https://www.chess.com/club/chessblitz-yorku',
   drive: 'https://drive.google.com/drive/u/3/folders/1sshFt39_rbMfscV_Ots8TBSq3cvVsNBz',
+  linktree: 'https://linktr.ee/yorkuchess',
 }
 
 const footerLinks = [
@@ -39,12 +40,13 @@ const footerLinks = [
   { label: 'Chess.com', href: clubLinks.chessCom },
   { label: 'YUConnect', href: clubLinks.yuConnectAbout },
   { label: 'Public Drive', href: clubLinks.drive },
+  { label: 'Linktree', href: clubLinks.linktree },
 ]
 
 const events = [
-  { number: '01', title: 'Casual play', description: 'Drop in for a game and meet other players.' },
-  { number: '02', title: 'Blitz night', description: 'Quick games and friendly competition.' },
-  { number: '03', title: 'Campus tournament', description: 'A chance to play across the boards.' },
+  { number: '01', title: 'Weekly chess meets', description: 'Drop in each week for casual games and meet other players.' },
+  { number: '02', title: 'Workshops', description: 'Learn and improve your chess with sessions such as our Beginners workshop.' },
+  { number: '03', title: 'CUCC', description: 'Play in our qualifiers for a chance to represent York University at the Canadian University Chess Championship.' },
 ]
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
@@ -125,7 +127,7 @@ function App() {
 
       {isEventsPage ? (
         <main className={pageWidth} id="events">
-          <EventsPage eventDetailsHref={clubLinks.yuConnectHome} />
+          <EventsPage />
         </main>
       ) : isGalleryPage ? (
         <main className={pageWidth} id="gallery">
@@ -133,15 +135,16 @@ function App() {
         </main>
       ) : isAboutPage ? (
         <main className={pageWidth} id="about">
-          <AboutPage executives={executiveTeam} constitution={constitution} constitutionHref="/chessblitz-yorku-constitution.pdf" />
+          <AboutPage executives={executiveTeam} constitution={constitution} />
         </main>
       ) : (
         <main className={pageWidth} id="home">
           <section className="border-b border-line pt-16 pb-[42px] max-[700px]:pt-[52px]" aria-labelledby="hero-title">
             <h1 className="text-[48px] leading-[1.16] font-bold tracking-[-1.9px] text-heading max-[700px]:text-[clamp(36px,8vw,48px)]" id="hero-title">ChessBlitz YorkU</h1>
             <p className="mt-[22px] text-[18px] leading-[1.5] text-muted max-[700px]:text-base">Bringing chess events, learning, and conversation to the York University community.</p>
-            <div className="mt-8 flex gap-[14px] max-[480px]:flex-wrap">
+            <div className="mt-8 flex flex-wrap gap-[14px]">
               <a className={`inline-flex min-h-11 min-w-[205px] items-center justify-center gap-[7px] rounded-[10px] border border-transparent bg-button px-[34px] text-sm font-bold whitespace-nowrap text-white transition-colors hover:bg-link-hover max-[480px]:flex-1 ${focusRing}`} href={clubLinks.discord} target="_blank" rel="noopener noreferrer">Join our Discord <Arrow diagonal /></a>
+              <a className={`inline-flex min-h-11 items-center justify-center gap-[7px] rounded-[10px] border border-line bg-surface px-[34px] text-sm font-bold whitespace-nowrap text-link transition-colors hover:border-link hover:text-link-hover max-[480px]:flex-1 ${focusRing}`} href={clubLinks.membershipDeclaration} target="_blank" rel="noopener noreferrer">Membership Declaration <Arrow diagonal /></a>
               <a className={`inline-flex min-h-11 items-center justify-center gap-[7px] rounded-[10px] border border-line bg-surface px-[34px] text-sm font-bold whitespace-nowrap text-link transition-colors hover:border-link hover:text-link-hover max-[480px]:flex-1 ${focusRing}`} href={clubLinks.mailingList} target="_blank" rel="noopener noreferrer">Mailing list <Arrow diagonal /></a>
             </div>
           </section>
@@ -159,7 +162,6 @@ function App() {
                   <span className="text-[15px] leading-[1.3] font-bold text-link">{event.number}</span>
                   <h3 className="mt-[18px] text-2xl leading-[1.2] font-bold tracking-[-0.6px] text-heading max-[1000px]:text-[21px]">{event.title}</h3>
                   <p className="mt-[9px] text-[15px] leading-[1.4] text-muted">{event.description}</p>
-                  <a className={`mt-auto self-start pt-[18px] text-[13px] font-bold text-link hover:text-link-hover ${focusRing}`} href={clubLinks.yuConnectHome} target="_blank" rel="noopener noreferrer">Event details <Arrow /></a>
                 </article>
               ))}
             </div>
