@@ -7,6 +7,7 @@
   --surface: #ffffff;
   --photo: #eaf3fc;
   --photo-alt: #e6f1ff;
+  --event-number: #e6f1ff;
   --heading: #162e48;
   --muted: #6e89a9;
   --line: #dce8f4;
@@ -22,6 +23,7 @@
   --surface: #10263e;
   --photo: #1b3957;
   --photo-alt: #1a416a;
+  --event-number: #153b63;
   --heading: #edf4fb;
   --muted: #94a9be;
   --line: #223a52;
@@ -37,6 +39,7 @@
   --color-surface: var(--surface);
   --color-photo: var(--photo);
   --color-photo-alt: var(--photo-alt);
+  --color-event-number: var(--event-number);
   --color-heading: var(--heading);
   --color-muted: var(--muted);
   --color-line: var(--line);
