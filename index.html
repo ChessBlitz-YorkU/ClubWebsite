@@ -2,10 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/src/index.css" rel="stylesheet" />
-    <title>cbyu-website</title>
+    <meta name="theme-color" content="#0b1e31" />
+    <meta name="description" content="ChessBlitz YorkU brings chess events, learning, and conversation to the York University community." />
+    <link id="site-icon" rel="icon" type="image/png" href="/icondark.png" />
+    <script>
+      (() => {
+        let savedTheme
+        try { savedTheme = localStorage.getItem('theme') } catch {}
+        const theme = savedTheme === 'light' || savedTheme === 'dark'
+          ? savedTheme
+          : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        document.documentElement.dataset.theme = theme
+        document.getElementById('site-icon').href = theme === 'dark' ? '/iconwhite.png' : '/icondark.png'
+        document.querySelector('meta[name="theme-color"]').content = theme === 'dark' ? '#0b1e31' : '#ffffff'
+      })()
+    </script>
+    <title>ChessBlitz YorkU</title>
   </head>
   <body>
     <div id="root"></div>
