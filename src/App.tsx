@@ -1,5 +1,6 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import EventsPage from './EventsPage'
+import GalleryPage from './GalleryPage'
 
 type Theme = 'light' | 'dark'
 
@@ -15,8 +16,8 @@ function subscribeToNavigation(onChange: () => void) {
   return () => window.removeEventListener('hashchange', onChange)
 }
 
-function getIsEventsPage() {
-  return window.location.hash === '#events'
+function getCurrentPage() {
+  return window.location.hash || '#home'
 }
 
 const clubLinks = {
@@ -48,20 +49,23 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
 }
 
 function App() {
-  const isEventsPage = useSyncExternalStore(subscribeToNavigation, getIsEventsPage)
+  const currentPage = useSyncExternalStore(subscribeToNavigation, getCurrentPage)
+  const isEventsPage = currentPage === '#events'
+  const isGalleryPage = currentPage === '#gallery' || currentPage === '#photos'
+  const isHomePage = !isEventsPage && !isGalleryPage
   const [theme, setTheme] = useState<Theme>(() =>
     document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
   )
 
   useEffect(() => {
-    document.title = isEventsPage ? 'Events | ChessBlitz YorkU' : 'ChessBlitz YorkU'
-    const target = window.location.hash.slice(1)
-    if (target === 'photos' || target === 'about') {
-      document.getElementById(target)?.scrollIntoView()
+    const pageTitle = isEventsPage ? 'Events' : isGalleryPage ? 'Gallery' : ''
+    document.title = pageTitle ? `${pageTitle} | ChessBlitz YorkU` : 'ChessBlitz YorkU'
+    if (currentPage === '#about') {
+      document.getElementById('about')?.scrollIntoView()
     } else {
       window.scrollTo({ top: 0, behavior: 'instant' })
     }
-  }, [isEventsPage])
+  }, [currentPage, isEventsPage, isGalleryPage])
 
   function toggleTheme() {
     const nextTheme = theme === 'dark' ? 'light' : 'dark'
@@ -111,12 +115,12 @@ function App() {
             )}
           </button>
           <nav className="flex self-stretch items-stretch gap-[42px] max-[1000px]:gap-5 max-[700px]:order-3 max-[700px]:h-[49px] max-[700px]:w-full max-[700px]:justify-between max-[700px]:gap-[14px]" aria-label="Main navigation">
-            <a className={`${mainNavLink} ${!isEventsPage ? activeNavLink : 'text-muted hover:text-link'} ${focusRing}`} href="#home" aria-current={!isEventsPage ? 'page' : undefined}>Home</a>
+            <a className={`${mainNavLink} ${isHomePage ? activeNavLink : 'text-muted hover:text-link'} ${focusRing}`} href="#home" aria-current={isHomePage ? 'page' : undefined}>Home</a>
             <a className={`${mainNavLink} ${isEventsPage ? activeNavLink : 'text-muted hover:text-link'} ${focusRing}`} href="#events" aria-current={isEventsPage ? 'page' : undefined}>Events</a>
-            <a className={`${mainNavLink} text-muted hover:text-link ${focusRing}`} href="#photos">Photos</a>
+            <a className={`${mainNavLink} ${isGalleryPage ? activeNavLink : 'text-muted hover:text-link'} ${focusRing}`} href="#gallery" aria-current={isGalleryPage ? 'page' : undefined}>Gallery</a>
             <a className={`${mainNavLink} text-muted hover:text-link ${focusRing}`} href="#about">About</a>
           </nav>
-          {isEventsPage && (
+          {!isHomePage && (
             <a className={`inline-flex min-h-11 shrink-0 items-center justify-center gap-[7px] rounded-[10px] bg-button px-[34px] text-sm font-bold text-white transition-colors hover:bg-link-hover max-[1000px]:px-3 max-[1000px]:text-[13px] max-[700px]:order-4 max-[700px]:mb-4 max-[700px]:w-full ${focusRing}`} href={clubLinks.yuConnectAbout} target="_blank" rel="noopener noreferrer">Join the club <Arrow diagonal /></a>
           )}
         </div>
@@ -125,6 +129,10 @@ function App() {
       {isEventsPage ? (
         <main className={pageWidth} id="events">
           <EventsPage eventDetailsHref={clubLinks.yuConnectHome} />
+        </main>
+      ) : isGalleryPage ? (
+        <main className={pageWidth} id="gallery">
+          <GalleryPage />
         </main>
       ) : (
         <main className={pageWidth} id="home">
@@ -156,11 +164,11 @@ function App() {
             </div>
           </section>
 
-          <section className="pt-[72px] max-[700px]:pt-[60px]" id="photos" aria-labelledby="photos-title">
+          <section className="pt-[72px] max-[700px]:pt-[60px]" id="gallery-preview" aria-labelledby="photos-title">
             <div className={sectionKicker}>From the club</div>
             <div className="mt-4 flex items-end justify-between gap-5 max-[480px]:flex-col max-[480px]:items-start max-[480px]:gap-3">
               <h2 className={sectionHeading} id="photos-title">Past events in pictures</h2>
-              <a className={`pb-[5px] text-sm font-bold whitespace-nowrap text-link hover:text-link-hover ${focusRing}`} href={clubLinks.instagram} target="_blank" rel="noopener noreferrer">See all photos <Arrow /></a>
+              <a className={`pb-[5px] text-sm font-bold whitespace-nowrap text-link hover:text-link-hover ${focusRing}`} href="#gallery">See gallery <Arrow /></a>
             </div>
             <div className="mt-[22px] grid grid-cols-3 gap-[26px] max-[1000px]:gap-4 max-[700px]:grid-cols-1" id="photo-gallery">
               {[1, 2, 3].map((photo) => (
@@ -174,7 +182,7 @@ function App() {
         </main>
       )}
 
-      <footer className={`${pageWidth} ${isEventsPage ? 'mt-[54px]' : 'mt-[41px]'} flex items-center justify-between gap-5 border-t border-line pt-[22px] pb-[30px] max-[480px]:flex-col max-[480px]:items-start`} id="about">
+      <footer className={`${pageWidth} ${isGalleryPage ? 'mt-[78px] pb-[70px]' : isEventsPage ? 'mt-[54px] pb-[30px]' : 'mt-[41px] pb-[30px]'} flex items-center justify-between gap-5 border-t border-line pt-[22px] max-[480px]:flex-col max-[480px]:items-start`} id="about">
         <strong className="text-sm font-bold text-heading">CHESSBLITZ YORKU</strong>
         <nav className="flex flex-wrap justify-end gap-x-[21px] gap-y-3 text-sm text-muted max-[480px]:justify-start" aria-label="Club links">
           {footerLinks.map(({ label, href }) => (
