@@ -11,6 +11,7 @@ const mainNavLink = 'relative flex items-center px-[2px] text-[15px] font-bold m
 const clubLinks = {
   instagram: 'https://www.instagram.com/yorkuchess/',
   discord: 'https://discord.gg/VsJAdbvyEq',
+  mailingList: 'https://docs.google.com/forms/d/e/1FAIpQLSfbBhQen9DcdJJAIvWTOmQQ7Ez9PE1bLb8dB_sy75F_LBmELg/viewform',
   yuConnectHome: 'https://yuconnect.yorku.ca/feeds?type=club&type_id=35476&tab=home',
   yuConnectAbout: 'https://yuconnect.yorku.ca/feeds?type=club&type_id=35476&tab=about',
   chessCom: 'https://www.chess.com/club/chessblitz-yorku',
@@ -102,6 +103,7 @@ function App() {
           <p className="mt-[22px] text-[18px] leading-[1.5] text-muted max-[700px]:text-base">Bringing chess events, learning, and conversation to the York University community.</p>
           <div className="mt-8 flex gap-[14px] max-[480px]:flex-wrap">
             <a className={`inline-flex min-h-11 min-w-[205px] items-center justify-center gap-[7px] rounded-[10px] border border-transparent bg-button px-[34px] text-sm font-bold whitespace-nowrap text-white transition-colors hover:bg-link-hover max-[480px]:flex-1 ${focusRing}`} href={clubLinks.discord} target="_blank" rel="noopener noreferrer">Join our Discord <Arrow diagonal /></a>
+            <a className={`inline-flex min-h-11 items-center justify-center gap-[7px] rounded-[10px] border border-line bg-surface px-[34px] text-sm font-bold whitespace-nowrap text-link transition-colors hover:border-link hover:text-link-hover max-[480px]:flex-1 ${focusRing}`} href={clubLinks.mailingList} target="_blank" rel="noopener noreferrer">Mailing list <Arrow diagonal /></a>
           </div>
         </section>
 
