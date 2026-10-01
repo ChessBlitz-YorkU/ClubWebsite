@@ -1,6 +1,9 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import EventsPage from './EventsPage'
 import GalleryPage from './GalleryPage'
+import AboutPage from './AboutPage'
+import constitution from './constitution.json'
+import { executiveTeam } from './executiveTeam'
 
 type Theme = 'light' | 'dark'
 
@@ -52,20 +55,17 @@ function App() {
   const currentPage = useSyncExternalStore(subscribeToNavigation, getCurrentPage)
   const isEventsPage = currentPage === '#events'
   const isGalleryPage = currentPage === '#gallery' || currentPage === '#photos'
-  const isHomePage = !isEventsPage && !isGalleryPage
+  const isAboutPage = currentPage === '#about'
+  const isHomePage = !isEventsPage && !isGalleryPage && !isAboutPage
   const [theme, setTheme] = useState<Theme>(() =>
     document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
   )
 
   useEffect(() => {
-    const pageTitle = isEventsPage ? 'Events' : isGalleryPage ? 'Gallery' : ''
+    const pageTitle = isEventsPage ? 'Events' : isGalleryPage ? 'Gallery' : isAboutPage ? 'About' : ''
     document.title = pageTitle ? `${pageTitle} | ChessBlitz YorkU` : 'ChessBlitz YorkU'
-    if (currentPage === '#about') {
-      document.getElementById('about')?.scrollIntoView()
-    } else {
-      window.scrollTo({ top: 0, behavior: 'instant' })
-    }
-  }, [currentPage, isEventsPage, isGalleryPage])
+    window.scrollTo({ top: 0, behavior: 'instant' })
+  }, [currentPage, isEventsPage, isGalleryPage, isAboutPage])
 
   function toggleTheme() {
     const nextTheme = theme === 'dark' ? 'light' : 'dark'
@@ -118,11 +118,8 @@ function App() {
             <a className={`${mainNavLink} ${isHomePage ? activeNavLink : 'text-muted hover:text-link'} ${focusRing}`} href="#home" aria-current={isHomePage ? 'page' : undefined}>Home</a>
             <a className={`${mainNavLink} ${isEventsPage ? activeNavLink : 'text-muted hover:text-link'} ${focusRing}`} href="#events" aria-current={isEventsPage ? 'page' : undefined}>Events</a>
             <a className={`${mainNavLink} ${isGalleryPage ? activeNavLink : 'text-muted hover:text-link'} ${focusRing}`} href="#gallery" aria-current={isGalleryPage ? 'page' : undefined}>Gallery</a>
-            <a className={`${mainNavLink} text-muted hover:text-link ${focusRing}`} href="#about">About</a>
+            <a className={`${mainNavLink} ${isAboutPage ? activeNavLink : 'text-muted hover:text-link'} ${focusRing}`} href="#about" aria-current={isAboutPage ? 'page' : undefined}>About</a>
           </nav>
-          {!isHomePage && (
-            <a className={`inline-flex min-h-11 shrink-0 items-center justify-center gap-[7px] rounded-[10px] bg-button px-[34px] text-sm font-bold text-white transition-colors hover:bg-link-hover max-[1000px]:px-3 max-[1000px]:text-[13px] max-[700px]:order-4 max-[700px]:mb-4 max-[700px]:w-full ${focusRing}`} href={clubLinks.yuConnectAbout} target="_blank" rel="noopener noreferrer">Join the club <Arrow diagonal /></a>
-          )}
         </div>
       </header>
 
@@ -133,6 +130,10 @@ function App() {
       ) : isGalleryPage ? (
         <main className={pageWidth} id="gallery">
           <GalleryPage />
+        </main>
+      ) : isAboutPage ? (
+        <main className={pageWidth} id="about">
+          <AboutPage executives={executiveTeam} constitution={constitution} constitutionHref="/chessblitz-yorku-constitution.pdf" />
         </main>
       ) : (
         <main className={pageWidth} id="home">
@@ -182,7 +183,7 @@ function App() {
         </main>
       )}
 
-      <footer className={`${pageWidth} ${isGalleryPage ? 'mt-[78px] pb-[70px]' : isEventsPage ? 'mt-[54px] pb-[30px]' : 'mt-[41px] pb-[30px]'} flex items-center justify-between gap-5 border-t border-line pt-[22px] max-[480px]:flex-col max-[480px]:items-start`} id="about">
+      <footer className={`${pageWidth} ${isGalleryPage || isAboutPage ? 'mt-[78px] pb-[70px]' : isEventsPage ? 'mt-[54px] pb-[30px]' : 'mt-[41px] pb-[30px]'} flex items-center justify-between gap-5 border-t border-line pt-[22px] max-[480px]:flex-col max-[480px]:items-start`}>
         <strong className="text-sm font-bold text-heading">CHESSBLITZ YORKU</strong>
         <nav className="flex flex-wrap justify-end gap-x-[21px] gap-y-3 text-sm text-muted max-[480px]:justify-start" aria-label="Club links">
           {footerLinks.map(({ label, href }) => (
