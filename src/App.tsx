@@ -2,6 +2,12 @@ import { useState } from 'react'
 
 type Theme = 'light' | 'dark'
 
+const pageWidth = 'mx-auto w-[calc(100%-160px)] max-w-[1280px] max-[1000px]:w-[calc(100%-48px)] max-[480px]:w-[calc(100%-36px)]'
+const focusRing = 'focus-visible:rounded-sm focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-link'
+const sectionHeading = 'text-[32px] leading-[1.2] font-bold tracking-[-1.05px] text-heading max-[480px]:text-[28px]'
+const sectionKicker = 'text-[13px] leading-[1.4] font-bold uppercase text-link'
+const mainNavLink = 'relative flex items-center px-[2px] text-[15px] font-bold max-[700px]:text-[13px]'
+
 const clubLinks = {
   instagram: 'https://www.instagram.com/yorkuchess/',
   discord: 'https://discord.gg/VsJAdbvyEq',
@@ -26,7 +32,7 @@ const events = [
 ]
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
-  return <span aria-hidden="true">{diagonal ? '↗' : '→'}</span>
+  return <span className={diagonal ? 'text-[17px] leading-none' : 'ml-[3px] align-[-1px] text-[17px]'} aria-hidden="true">{diagonal ? '↗' : '→'}</span>
 }
 
 function App() {
@@ -51,12 +57,12 @@ function App() {
   }
 
   return (
-    <>
-      <header className="site-header">
-        <div className="header-inner page-width">
-          <a className="brand" href="#home" aria-label="ChessBlitz YorkU home">
+    <div className="min-h-screen min-w-[320px] bg-page font-site text-heading antialiased [font-synthesis:none] [text-rendering:optimizeLegibility]">
+      <header className="h-[78px] bg-site-header max-[700px]:h-auto">
+        <div className={`${pageWidth} flex h-full items-center justify-between gap-[30px] max-[1000px]:gap-4 max-[700px]:flex-wrap max-[700px]:pt-4`}>
+          <a className={`inline-flex shrink-0 items-center ${focusRing}`} href="#home" aria-label="ChessBlitz YorkU home">
             <img
-              className="brand-image"
+              className="block h-auto w-[228px] max-[1000px]:w-[200px] max-[700px]:w-[190px] max-[480px]:w-[165px]"
               src={theme === 'dark' ? '/CBYUfullwhite.png' : '/CBYUfullblack.png'}
               alt=""
               width="2723"
@@ -64,67 +70,67 @@ function App() {
             />
           </a>
           <button
-            className="theme-toggle"
+            className={`ml-auto grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-[10px] border border-line bg-surface p-0 text-heading transition-colors hover:border-link hover:text-link max-[700px]:h-[38px] max-[700px]:w-[38px] ${focusRing}`}
             type="button"
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
             {theme === 'dark' ? (
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="4" />
                 <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
               </svg>
             ) : (
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5 8.5 8.5 0 1 0 20.5 14.3Z" />
               </svg>
             )}
           </button>
-          <nav className="main-nav" aria-label="Main navigation">
-            <a className="active" href="#home" aria-current="page">Home</a>
-            <a href="#events">Events</a>
-            <a href="#photos">Photos</a>
-            <a href="#about">About</a>
+          <nav className="flex self-stretch items-stretch gap-[42px] max-[1000px]:gap-5 max-[700px]:order-3 max-[700px]:h-[49px] max-[700px]:w-full max-[700px]:justify-between max-[700px]:gap-[14px]" aria-label="Main navigation">
+            <a className={`${mainNavLink} text-link after:absolute after:inset-x-0 after:bottom-0 after:h-1 after:rounded-t-sm after:bg-link after:content-[''] ${focusRing}`} href="#home" aria-current="page">Home</a>
+            <a className={`${mainNavLink} text-muted hover:text-link ${focusRing}`} href="#events">Events</a>
+            <a className={`${mainNavLink} text-muted hover:text-link ${focusRing}`} href="#photos">Photos</a>
+            <a className={`${mainNavLink} text-muted hover:text-link ${focusRing}`} href="#about">About</a>
           </nav>
         </div>
       </header>
 
-      <main className="page-width" id="home">
-        <section className="hero" aria-labelledby="hero-title">
-          <h1 id="hero-title">ChessBlitz YorkU</h1>
-          <p>Bringing chess events, learning, and conversation to the York University community.</p>
-          <div className="hero-actions">
-            <a className="button button-primary" href={clubLinks.discord} target="_blank" rel="noopener noreferrer">Join our Discord <Arrow diagonal /></a>
+      <main className={pageWidth} id="home">
+        <section className="border-b border-line pt-16 pb-[42px] max-[700px]:pt-[52px]" aria-labelledby="hero-title">
+          <h1 className="text-[48px] leading-[1.16] font-bold tracking-[-1.9px] text-heading max-[700px]:text-[clamp(36px,8vw,48px)]" id="hero-title">ChessBlitz YorkU</h1>
+          <p className="mt-[22px] text-[18px] leading-[1.5] text-muted max-[700px]:text-base">Bringing chess events, learning, and conversation to the York University community.</p>
+          <div className="mt-8 flex gap-[14px] max-[480px]:flex-wrap">
+            <a className={`inline-flex min-h-11 min-w-[205px] items-center justify-center gap-[7px] rounded-[10px] border border-transparent bg-button px-[34px] text-sm font-bold whitespace-nowrap text-white transition-colors hover:bg-link-hover max-[480px]:flex-1 ${focusRing}`} href={clubLinks.discord} target="_blank" rel="noopener noreferrer">Join our Discord <Arrow diagonal /></a>
           </div>
         </section>
 
-        <section className="events-section" id="events" aria-labelledby="events-title">
-          <div className="section-kicker">Club events</div>
-          <h2 id="events-title">Come play with us</h2>
-          <p className="section-description">Details can be updated as new club events are announced.</p>
-          <div className="event-grid">
+        <section className="pt-10" id="events" aria-labelledby="events-title">
+          <div className={sectionKicker}>Club events</div>
+          <h2 className={`${sectionHeading} mt-4`} id="events-title">Come play with us</h2>
+          <p className="mt-3 text-base leading-[1.5] text-muted">Details can be updated as new club events are announced.</p>
+          <div className="mt-[27px] grid grid-cols-3 gap-[26px] max-[1000px]:gap-4 max-[700px]:grid-cols-1">
             {events.map((event) => (
-              <article className="event-card" key={event.number}>
-                <span className="event-number">{event.number}</span>
-                <h3>{event.title}</h3>
-                <p>{event.description}</p>
-                <a href={clubLinks.yuConnectHome} target="_blank" rel="noopener noreferrer">Event details <Arrow /></a>
+              <article className="flex min-h-[183px] flex-col rounded-2xl border border-line bg-surface px-[23px] pt-6 pb-[14px] max-[1000px]:px-[18px] max-[700px]:min-h-[170px]" key={event.number}>
+                <span className="text-[15px] leading-[1.3] font-bold text-link">{event.number}</span>
+                <h3 className="mt-[18px] text-2xl leading-[1.2] font-bold tracking-[-0.6px] text-heading max-[1000px]:text-[21px]">{event.title}</h3>
+                <p className="mt-[9px] text-[15px] leading-[1.4] text-muted">{event.description}</p>
+                <a className={`mt-auto self-start pt-[18px] text-[13px] font-bold text-link hover:text-link-hover ${focusRing}`} href={clubLinks.yuConnectHome} target="_blank" rel="noopener noreferrer">Event details <Arrow /></a>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="photos-section" id="photos" aria-labelledby="photos-title">
-          <div className="section-kicker">From the club</div>
-          <div className="photos-heading">
-            <h2 id="photos-title">Past events in pictures</h2>
-            <a href={clubLinks.instagram} target="_blank" rel="noopener noreferrer">See all photos <Arrow /></a>
+        <section className="pt-[72px] max-[700px]:pt-[60px]" id="photos" aria-labelledby="photos-title">
+          <div className={sectionKicker}>From the club</div>
+          <div className="mt-4 flex items-end justify-between gap-5 max-[480px]:flex-col max-[480px]:items-start max-[480px]:gap-3">
+            <h2 className={sectionHeading} id="photos-title">Past events in pictures</h2>
+            <a className={`pb-[5px] text-sm font-bold whitespace-nowrap text-link hover:text-link-hover ${focusRing}`} href={clubLinks.instagram} target="_blank" rel="noopener noreferrer">See all photos <Arrow /></a>
           </div>
-          <div className="photo-grid" id="photo-gallery">
+          <div className="mt-[22px] grid grid-cols-3 gap-[26px] max-[1000px]:gap-4 max-[700px]:grid-cols-1" id="photo-gallery">
             {[1, 2, 3].map((photo) => (
-              <div className="photo-placeholder" key={photo} role="img" aria-label={'Event photo placeholder ' + photo}>
-                <span className="photo-icon" aria-hidden="true" />
+              <div className={`flex min-h-[174px] flex-col items-center justify-center gap-[27px] rounded-[15px] border border-line ${photo === 2 ? 'bg-photo-alt' : 'bg-photo'} text-[15px] font-medium text-muted`} key={photo} role="img" aria-label={'Event photo placeholder ' + photo}>
+                <span className="block h-[30px] w-[30px] border-2 border-link bg-[repeating-linear-gradient(45deg,transparent_0_4px,var(--link)_4px_6px,transparent_6px_10px)]" aria-hidden="true" />
                 <span>Add event photo</span>
               </div>
             ))}
@@ -132,15 +138,15 @@ function App() {
         </section>
       </main>
 
-      <footer className="site-footer page-width" id="about">
-        <strong>CHESSBLITZ YORKU</strong>
-        <nav className="footer-links" aria-label="Club links">
+      <footer className={`${pageWidth} mt-[41px] flex items-center justify-between gap-5 border-t border-line pt-[22px] pb-[30px] max-[480px]:flex-col max-[480px]:items-start`} id="about">
+        <strong className="text-sm font-bold text-heading">CHESSBLITZ YORKU</strong>
+        <nav className="flex flex-wrap justify-end gap-x-[21px] gap-y-3 text-sm text-muted max-[480px]:justify-start" aria-label="Club links">
           {footerLinks.map(({ label, href }) => (
-            <a key={label} href={href} target="_blank" rel="noopener noreferrer">{label}</a>
+            <a className={`hover:text-link ${focusRing}`} key={label} href={href} target="_blank" rel="noopener noreferrer">{label}</a>
           ))}
         </nav>
       </footer>
-    </>
+    </div>
   )
 }
 
